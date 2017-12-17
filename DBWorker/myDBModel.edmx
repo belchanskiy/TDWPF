@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище dbaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "C:\USERS\BELIKOVAI\DESKTOP\FFF\_КУРСОВИК\TEACHERSDIARYWPF\DBWORKER\DB\DBASE.MDF.dbo.Calendar" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Calendar">
+          <Key>
+            <PropertyRef Name="idTeacher" />
+            <PropertyRef Name="idPupil" />
+            <PropertyRef Name="day" />
+            <PropertyRef Name="timeBegin" />
+            <PropertyRef Name="timeEnd" />
+            <PropertyRef Name="active" />
+            <PropertyRef Name="dateBegin" />
+          </Key>
+          <Property Name="idTeacher" Type="int" Nullable="false" />
+          <Property Name="idPupil" Type="int" Nullable="false" />
+          <Property Name="day" Type="int" Nullable="false" />
+          <Property Name="timeBegin" Type="time" Precision="7" Nullable="false" />
+          <Property Name="timeEnd" Type="time" Precision="7" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="comment" Type="ntext" />
+          <Property Name="dateBegin" Type="date" Nullable="false" />
+          <Property Name="dateEnd" Type="date" />
+        </EntityType>
+        <EntityType Name="Journal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idTeacher" Type="int" Nullable="false" />
+          <Property Name="idPupil" Type="int" Nullable="false" />
+          <Property Name="subject" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JournalDetail">
+          <Key>
+            <PropertyRef Name="idJournal" />
+          </Key>
+          <Property Name="idJournal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numTask" Type="int" Nullable="false" />
+          <Property Name="resultTask" Type="int" Nullable="false" />
+          <Property Name="comment" Type="ntext" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "C:\USERS\BELIKOVAI\DESKTOP\FFF\_КУРСОВИК\TEACHERSDIARYWPF\DBWORKER\DB\DBASE.MDF.dbo.Plans" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Plans">
+          <Key>
+            <PropertyRef Name="idTeacher" />
+            <PropertyRef Name="idPupil" />
+            <PropertyRef Name="date" />
+            <PropertyRef Name="plan" />
+          </Key>
+          <Property Name="idTeacher" Type="int" Nullable="false" />
+          <Property Name="idPupil" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="plan" Type="ntext" Nullable="false" />
+          <Property Name="comment" Type="ntext" />
+        </EntityType>
+        <EntityType Name="Pupils">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="grade" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="target" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="parentName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="parentPhone" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="comment" Type="ntext" />
+          <Property Name="active" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "C:\USERS\BELIKOVAI\DESKTOP\FFF\_КУРСОВИК\TEACHERSDIARYWPF\DBWORKER\DB\DBASE.MDF.dbo.Tasks" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="idTeacher" />
+            <PropertyRef Name="idPupil" />
+            <PropertyRef Name="date" />
+            <PropertyRef Name="task" />
+            <PropertyRef Name="accepted" />
+          </Key>
+          <Property Name="idTeacher" Type="int" Nullable="false" />
+          <Property Name="idPupil" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="task" Type="ntext" Nullable="false" />
+          <Property Name="accepted" Type="bit" Nullable="false" />
+          <Property Name="comment" Type="ntext" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="typeTeacher" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="Хранилище dbaseModelContainer">
+          <EntitySet Name="Journal" EntityType="Self.Journal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JournalDetail" EntityType="Self.JournalDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pupils" EntityType="Self.Pupils" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Calendar" EntityType="Self.Calendar" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[Calendar].[idTeacher] AS [idTeacher], 
+[Calendar].[idPupil] AS [idPupil], 
+[Calendar].[day] AS [day], 
+[Calendar].[timeBegin] AS [timeBegin], 
+[Calendar].[timeEnd] AS [timeEnd], 
+[Calendar].[active] AS [active], 
+[Calendar].[comment] AS [comment], 
+[Calendar].[dateBegin] AS [dateBegin], 
+[Calendar].[dateEnd] AS [dateEnd]
+FROM [dbo].[Calendar] AS [Calendar]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Plans" EntityType="Self.Plans" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[Plans].[idTeacher] AS [idTeacher], 
+[Plans].[idPupil] AS [idPupil], 
+[Plans].[date] AS [date], 
+[Plans].[plan] AS [plan], 
+[Plans].[comment] AS [comment]
+FROM [dbo].[Plans] AS [Plans]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[Tasks].[idTeacher] AS [idTeacher], 
+[Tasks].[idPupil] AS [idPupil], 
+[Tasks].[date] AS [date], 
+[Tasks].[task] AS [task], 
+[Tasks].[accepted] AS [accepted], 
+[Tasks].[comment] AS [comment]
+FROM [dbo].[Tasks] AS [Tasks]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Journal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="idTeacher" Type="Int32" Nullable="false" />
+          <Property Name="idPupil" Type="Int32" Nullable="false" />
+          <Property Name="subject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="JournalDetail">
+          <Key>
+            <PropertyRef Name="idJournal" />
+          </Key>
+          <Property Name="idJournal" Type="Int32" Nullable="false" />
+          <Property Name="numTask" Type="Int32" Nullable="false" />
+          <Property Name="resultTask" Type="Int32" Nullable="false" />
+          <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Pupils">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="grade" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="target" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="parentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="parentPhone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="typeTeacher" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Calendar">
+          <Key>
+            <PropertyRef Name="idTeacher" />
+            <PropertyRef Name="idPupil" />
+            <PropertyRef Name="day" />
+            <PropertyRef Name="timeBegin" />
+            <PropertyRef Name="timeEnd" />
+            <PropertyRef Name="active" />
+            <PropertyRef Name="dateBegin" />
+          </Key>
+          <Property Name="idTeacher" Type="Int32" Nullable="false" />
+          <Property Name="idPupil" Type="Int32" Nullable="false" />
+          <Property Name="day" Type="Int32" Nullable="false" />
+          <Property Name="timeBegin" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="timeEnd" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dateBegin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateEnd" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Plans">
+          <Key>
+            <PropertyRef Name="idTeacher" />
+            <PropertyRef Name="idPupil" />
+            <PropertyRef Name="date" />
+            <PropertyRef Name="plan" />
+          </Key>
+          <Property Name="idTeacher" Type="Int32" Nullable="false" />
+          <Property Name="idPupil" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="plan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="idTeacher" />
+            <PropertyRef Name="idPupil" />
+            <PropertyRef Name="date" />
+            <PropertyRef Name="task" />
+            <PropertyRef Name="accepted" />
+          </Key>
+          <Property Name="idTeacher" Type="Int32" Nullable="false" />
+          <Property Name="idPupil" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="task" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="accepted" Type="Boolean" Nullable="false" />
+          <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="mydbaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Journal" EntityType="Self.Journal" />
+          <EntitySet Name="JournalDetail" EntityType="Self.JournalDetail" />
+          <EntitySet Name="Pupils" EntityType="Self.Pupils" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Calendar" EntityType="Self.Calendar" />
+          <EntitySet Name="Plans" EntityType="Self.Plans" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище dbaseModelContainer" CdmEntityContainer="mydbaseEntities">
+          <EntitySetMapping Name="Journal">
+            <EntityTypeMapping TypeName="dbaseModel.Journal">
+              <MappingFragment StoreEntitySet="Journal">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idTeacher" ColumnName="idTeacher" />
+                <ScalarProperty Name="idPupil" ColumnName="idPupil" />
+                <ScalarProperty Name="subject" ColumnName="subject" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JournalDetail">
+            <EntityTypeMapping TypeName="dbaseModel.JournalDetail">
+              <MappingFragment StoreEntitySet="JournalDetail">
+                <ScalarProperty Name="idJournal" ColumnName="idJournal" />
+                <ScalarProperty Name="numTask" ColumnName="numTask" />
+                <ScalarProperty Name="resultTask" ColumnName="resultTask" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pupils">
+            <EntityTypeMapping TypeName="dbaseModel.Pupils">
+              <MappingFragment StoreEntitySet="Pupils">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="grade" ColumnName="grade" />
+                <ScalarProperty Name="target" ColumnName="target" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="parentName" ColumnName="parentName" />
+                <ScalarProperty Name="parentPhone" ColumnName="parentPhone" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="active" ColumnName="active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="dbaseModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="typeTeacher" ColumnName="typeTeacher" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Calendar">
+            <EntityTypeMapping TypeName="dbaseModel.Calendar">
+              <MappingFragment StoreEntitySet="Calendar">
+                <ScalarProperty Name="idTeacher" ColumnName="idTeacher" />
+                <ScalarProperty Name="idPupil" ColumnName="idPupil" />
+                <ScalarProperty Name="day" ColumnName="day" />
+                <ScalarProperty Name="timeBegin" ColumnName="timeBegin" />
+                <ScalarProperty Name="timeEnd" ColumnName="timeEnd" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="dateBegin" ColumnName="dateBegin" />
+                <ScalarProperty Name="dateEnd" ColumnName="dateEnd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plans">
+            <EntityTypeMapping TypeName="dbaseModel.Plans">
+              <MappingFragment StoreEntitySet="Plans">
+                <ScalarProperty Name="idTeacher" ColumnName="idTeacher" />
+                <ScalarProperty Name="idPupil" ColumnName="idPupil" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="plan" ColumnName="plan" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="dbaseModel.Tasks">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="idTeacher" ColumnName="idTeacher" />
+                <ScalarProperty Name="idPupil" ColumnName="idPupil" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="task" ColumnName="task" />
+                <ScalarProperty Name="accepted" ColumnName="accepted" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

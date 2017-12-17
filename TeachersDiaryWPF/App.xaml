@@ -1,0 +1,9 @@
+﻿<Application x:Class="TeachersDiaryWPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TeachersDiaryWPF"
+             StartupUri="AuthWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

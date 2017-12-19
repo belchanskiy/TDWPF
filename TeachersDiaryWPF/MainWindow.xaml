@@ -159,15 +159,31 @@
                     <Label Content="Дата завершения:" Grid.Column="0" Grid.Row="4"/>
                     <DatePicker Grid.Column="1" Grid.Row="4" Margin="2"/>
                     <Label Content="Время начала:" Grid.Column="0" Grid.Row="5"/>
-                    <Label Grid.Column="1" Grid.Row="5" Margin="2" Content="Час." Width="35" HorizontalAlignment="Left"/>
-                    <TextBox Grid.Column="1" Text="0" Grid.Row="5" Margin="44,2" Width="30" HorizontalAlignment="Left"/>
-                    <Label Grid.Column="1" Grid.Row="5" Margin="76,2" Content="Мин." Width="35" HorizontalAlignment="Left"/>
-                    <TextBox Grid.Column="1" Text="0" Grid.Row="5" Margin="118,2" Width="30" HorizontalAlignment="Left"/>
+                    <Grid Grid.Column="1" Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Margin="2" Content="Час." Width="35" HorizontalAlignment="Left"/>
+                        <TextBox Grid.Column="1" Text="0" Margin="2" Width="30" HorizontalAlignment="Left"/>
+                        <Label Grid.Column="2" Margin="2" Content="Мин." Width="35" HorizontalAlignment="Left"/>
+                        <TextBox Grid.Column="3" Text="0" Margin="2" Width="30" HorizontalAlignment="Left"/>
+                    </Grid>
                     <Label Content="Время завершения:" Grid.Column="0" Grid.Row="6"/>
-                    <Label Grid.Column="1" Grid.Row="6" Margin="2" Content="Час." Width="35" HorizontalAlignment="Left"/>
-                    <TextBox Grid.Column="1" Text="0" Grid.Row="6" Margin="44,2" Width="30" HorizontalAlignment="Left"/>
-                    <Label Grid.Column="1" Grid.Row="6" Margin="76,2" Content="Мин." Width="35" HorizontalAlignment="Left"/>
-                    <TextBox Grid.Column="1" Text="0" Grid.Row="6" Margin="118,2" Width="30" HorizontalAlignment="Left"/>
+                    <Grid Grid.Column="1" Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Margin="2" Content="Час." Width="35" HorizontalAlignment="Left"/>
+                        <TextBox Grid.Column="1" Text="0" Margin="2" Width="30" HorizontalAlignment="Left"/>
+                        <Label Grid.Column="2" Margin="2" Content="Мин." Width="35" HorizontalAlignment="Left"/>
+                        <TextBox Grid.Column="3" Text="0" Margin="2" Width="30" HorizontalAlignment="Left"/>
+                    </Grid>
                     <Label Content="Комментарий:" Grid.Column="0" Grid.Row="7"/>
                     <TextBox Grid.Column="1" Text="" Grid.Row="7" Margin="2" HorizontalAlignment="Left"/>
                     <Label Content="Активность:" Grid.Column="0" Grid.Row="8"/>

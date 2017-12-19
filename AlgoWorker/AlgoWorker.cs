@@ -140,13 +140,13 @@ namespace AlgoWorker
 
         public Calendar getItemByIDS(int _idTeacher, int _idPupil, int _day)
         {
-            DBWorker.dbCalendar dbItem = DBWCal.getItemByIDSFromDB(_idTeacher, _idPupil, _day);
+            DBWorker.dbCalendar dbItem = DBWCal.getItemByIDSFromDB(_idTeacher, _idPupil, ++_day);
 
             Calendar Item = new Calendar();
 
             Item.idTeacher = dbItem.idTeacher;
             Item.idPupil = dbItem.idPupil;
-            Item.day = dbItem.day;
+            Item.day = --dbItem.day;
             Item.timeBegin = dbItem.timeBegin;
             Item.timeEnd = dbItem.timeEnd;
             Item.active = dbItem.active;
@@ -157,11 +157,28 @@ namespace AlgoWorker
             return Item;
         }
 
-        public List<Calendar> GetItemsByIdPupil(int _idTeacher, int _idPupil)
+        public ObservableCollection<Calendar> GetItemsByIdPupil(int _idTeacher, int _idPupil)
         {
-            List<Calendar> retVal = new List<Calendar>();
+            ObservableCollection<Calendar> retVal = new ObservableCollection<Calendar>();
 
             List<DBWorker.dbCalendar> dbItems = DBWCal.getItemByIDPupilFromDB(_idTeacher, _idPupil);
+
+            foreach (DBWorker.dbCalendar dbItem in dbItems)
+            {
+                Calendar Item = new Calendar();
+
+                Item.active = dbItem.active;
+                Item.comment = dbItem.comment;
+                Item.dateBegin = dbItem.dateBegin;
+                Item.dateEnd = dbItem.dateEnd;
+                Item.day = --dbItem.day;
+                Item.idPupil = dbItem.idPupil;
+                Item.idTeacher = dbItem.idTeacher;
+                Item.timeBegin = dbItem.timeBegin;
+                Item.timeEnd = dbItem.timeEnd;
+
+                retVal.Add(Item);
+            }
 
             return retVal;
         }
@@ -174,13 +191,20 @@ namespace AlgoWorker
             Item.comment = _Item.comment;
             Item.dateBegin = _Item.dateBegin;
             Item.dateEnd = _Item.dateEnd;
-            Item.day = _Item.day;
+            Item.day = ++_Item.day;
             Item.idPupil = _Item.idPupil;
             Item.idTeacher = _Item.idTeacher;
             Item.timeBegin = _Item.timeBegin;
             Item.timeEnd = _Item.timeEnd;
-            
-            DBWCal.createCalendarInDB(Item);
+
+            if (DBWCal.getItemByIDSFromDB(_Item.idTeacher, _Item.idPupil, _Item.day).idPupil == 0)
+            {
+                DBWCal.createCalendarInDB(Item);
+            }
+            else
+            {
+                DBWCal.updateCalendarInDB(Item);
+            }
         }
     }
 }

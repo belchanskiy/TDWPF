@@ -14,6 +14,7 @@ namespace DBWorker
     
     public partial class Calendar
     {
+        public int id { get; set; }
         public int idTeacher { get; set; }
         public int idPupil { get; set; }
         public int day { get; set; }

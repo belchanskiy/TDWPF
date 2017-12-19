@@ -13,10 +13,24 @@ namespace TeachersDiaryWPF
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        public dataTypes.User User;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public AlgoWorker.PupilsWorker AWpWorker;
         public AlgoWorker.CalendarWorker AWcWorker;
+
+        private ObservableCollection<AlgoWorker.Calendar> cPupilsList;
+
+        public ObservableCollection<AlgoWorker.Calendar> CalPupilsList
+        {
+            get { return this.cPupilsList; }
+            set
+            {
+                this.cPupilsList = value;
+                OnPropertyChanged("CalPupilsList");
+            }
+        }
 
         private List<AlgoWorker.Calendar> calEvents;
 
@@ -134,13 +148,101 @@ namespace TeachersDiaryWPF
         }
 
         private int jDayOfWeek;
-        public ComboBoxItem JournDayOfWeek
+        public int JournDayOfWeek
         {
-            get { return this.ConvertDayOfWeekIntToItem(this.jDayOfWeek); }
+            get { return this.jDayOfWeek; }
             set
             {
-                this.jDayOfWeek = this.ConvertDayOfWeekItemToInt(value);
+                this.jDayOfWeek = value;
                 OnPropertyChanged("JournDayOfWeek");
+            }
+        }
+
+        private DateTime jDateStart;
+        public DateTime JournDateStart
+        {
+            get { return this.jDateStart; }
+            set
+            {
+                this.jDateStart = value;
+                OnPropertyChanged("JournDateStart");
+            }
+        }
+
+        private DateTime jDateEnd;
+        public DateTime JournDateEnd
+        {
+            get { return this.jDateEnd; }
+            set
+            {
+                this.jDateEnd = value;
+                OnPropertyChanged("JournDateEnd");
+            }
+        }
+
+        private int jTimeStartH;
+        public int JournTimeStartH
+        {
+            get { return this.jTimeStartH; }
+            set
+            {
+                this.jTimeStartH = value;
+                OnPropertyChanged("JournTimeStartH");
+            }
+        }
+
+        private int jTimeStartM;
+        public int JournTimeStartM
+        {
+            get { return this.jTimeStartM; }
+            set
+            {
+                this.jTimeStartM = value;
+                OnPropertyChanged("JournTimeStartM");
+            }
+        }
+
+        private int jTimeEndH;
+        public int JournTimeEndH
+        {
+            get { return this.jTimeEndH; }
+            set
+            {
+                this.jTimeEndH = value;
+                OnPropertyChanged("JournTimeEndH");
+            }
+        }
+
+        private int jTimeEndM;
+        public int JournTimeEndM
+        {
+            get { return this.jTimeEndM; }
+            set
+            {
+                this.jTimeEndM = value;
+                OnPropertyChanged("JournTimeEndM");
+            }
+        }
+
+        private string jComment;
+        public string JournComment
+        {
+            get { return this.jComment; }
+            set
+            {
+                this.jComment = value;
+                OnPropertyChanged("JournComment");
+            }
+        }
+
+        private bool jActive;
+        public bool JournActive
+        {
+            get { return this.jActive; }
+            set
+            {
+                this.jActive = value;
+                OnPropertyChanged("JournActive");
             }
         }
 
@@ -151,7 +253,7 @@ namespace TeachersDiaryWPF
             set
             {
                 this.pList = value;
-                OnPropertyChanged("PupilActive");
+                OnPropertyChanged("PupilsList");
             }
         }
 
@@ -192,32 +294,22 @@ namespace TeachersDiaryWPF
             this.UpdatePupilsList();
         }
 
-        public int ConvertDayOfWeekItemToInt(ComboBoxItem _strDay)
+        public void ClearJournFields()
         {
-            if (_strDay.Content.ToString() == "Понедельник") return 1;
-            if (_strDay.Content.ToString() == "Вторник") return 2;
-            if (_strDay.Content.ToString() == "Среда") return 3;
-            if (_strDay.Content.ToString() == "Четверг") return 4;
-            if (_strDay.Content.ToString() == "Пятница") return 5;
-            if (_strDay.Content.ToString() == "Суббота") return 6;
-            if (_strDay.Content.ToString() == "Воскресенье") return 0;
-
-            return 0;
+            this.JournActive = false;
+            this.JournComment = "";
+            this.JournDateEnd = new DateTime();
+            this.JournDateStart = new DateTime();
+            this.JournDayOfWeek = -1;
+            this.JournTimeEndH = 0;
+            this.JournTimeEndM = 0;
+            this.JournTimeStartH = 0;
+            this.JournTimeStartM = 0;
         }
 
-        public ComboBoxItem ConvertDayOfWeekIntToItem(int _intDay)
+        public void UpdateJournalList()
         {
-            ComboBoxItem retValue = new ComboBoxItem();
-
-            if (_intDay == 1) retValue.Content = "Понедельник";
-            if (_intDay == 2) retValue.Content = "Вторник";
-            if (_intDay == 3) retValue.Content = "Среда";
-            if (_intDay == 4) retValue.Content = "Четверг";
-            if (_intDay == 5) retValue.Content = "Пятница";
-            if (_intDay == 6) retValue.Content = "Суббота";
-            if (_intDay == 0) retValue.Content = "Воскресенье";
-
-            return retValue;
+            this.CalPupilsList = AWcWorker.GetItemsByIdPupil(this.User.id, this.PupilId);
         }
 
         public void UpdatePupilsList()
@@ -238,8 +330,9 @@ namespace TeachersDiaryWPF
             this.PupilTarget = _pupil.target;
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(dataTypes.User _User)
         {
+            this.User = _User;
             AWpWorker = new AlgoWorker.PupilsWorker();
             AWcWorker = new AlgoWorker.CalendarWorker();
 
@@ -256,11 +349,12 @@ namespace TeachersDiaryWPF
 
             CalSelDateChanged = new Calendar_DateCahnged(this);
 
-            JournDayOfWeek = this.ConvertDayOfWeekIntToItem(3);
+            JournDayOfWeek = -1;
 
             this.CalendarEvents = AWcWorker.getItemsByDate(DateTime.Now);
 
             this.UpdatePupilsList();
+            this.UpdateJournalList();
 
         }
     }
@@ -438,7 +532,20 @@ namespace TeachersDiaryWPF
 
         public void Execute(object parameter)
         {
-            int f = 1;
+            AlgoWorker.Calendar Item = new AlgoWorker.Calendar();
+
+            Item.active = model.JournActive;
+            Item.comment = model.JournComment;
+            Item.dateBegin = model.JournDateStart;
+            Item.dateEnd = model.JournDateEnd;
+            Item.day = model.JournDayOfWeek;
+            Item.idPupil = model.PupilId;
+            Item.idTeacher = model.User.id;
+            Item.timeBegin = new TimeSpan(model.JournTimeStartH, model.JournTimeStartM, 0);
+            Item.timeEnd = new TimeSpan(model.JournTimeEndH, model.JournTimeEndM, 0);
+
+            this.model.AWcWorker.AddItemToDB(Item);
+            this.model.UpdateJournalList();
         }
     }
 
@@ -464,9 +571,7 @@ namespace TeachersDiaryWPF
 
         public void Execute(object parameter)
         {
-            AlgoWorker.Calendar Item = new AlgoWorker.Calendar();
-
-            //  Item.active = this.model.
+            model.ClearJournFields();
         }
     }
 
@@ -492,6 +597,7 @@ namespace TeachersDiaryWPF
 
         public void Execute(object parameter)
         {
+            //this.model.AWcWorker.
             int f = 1;
         }
     }
@@ -518,7 +624,18 @@ namespace TeachersDiaryWPF
 
         public void Execute(object parameter)
         {
-            int f = 1;
+            AlgoWorker.Calendar Item = model.AWcWorker.getItemByIDS(this.model.User.id, this.model.PupilId, this.model.JournDayOfWeek);
+
+            this.model.JournDayOfWeek = Item.day;
+            this.model.JournDateStart = Item.dateBegin;
+            this.model.JournDateEnd = (DateTime)Item.dateEnd;
+            this.model.JournTimeEndH = Item.timeEnd.Hours;
+            this.model.JournTimeEndM = Item.timeEnd.Minutes;
+            this.model.JournTimeStartH = Item.timeBegin.Hours;
+            this.model.JournTimeStartM = Item.timeBegin.Minutes;
+            this.model.JournActive = Item.active;
+            this.model.JournComment = Item.comment;
+
         }
     }
 }

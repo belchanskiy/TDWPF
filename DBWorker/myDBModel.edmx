@@ -5,18 +5,11 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище dbaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "C:\USERS\BELIKOVAI\DESKTOP\FFF\_КУРСОВИК\TEACHERSDIARYWPF\DBWORKER\DB\DBASE.MDF.dbo.Calendar" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Calendar">
           <Key>
-            <PropertyRef Name="idTeacher" />
-            <PropertyRef Name="idPupil" />
-            <PropertyRef Name="day" />
-            <PropertyRef Name="timeBegin" />
-            <PropertyRef Name="timeEnd" />
-            <PropertyRef Name="active" />
-            <PropertyRef Name="dateBegin" />
+            <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idTeacher" Type="int" Nullable="false" />
           <Property Name="idPupil" Type="int" Nullable="false" />
           <Property Name="day" Type="int" Nullable="false" />
@@ -47,7 +40,7 @@
           <Property Name="comment" Type="ntext" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "C:\USERS\BELIKOVAI\DESKTOP\FFF\_КУРСОВИК\TEACHERSDIARYWPF\DBWORKER\DB\DBASE.MDF.dbo.Plans" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+предупреждение 6002: В таблице или представлении "C:\USERS\BELIKOVAI\SOURCE\REPOS\TDWPF\DBWORKER\DB\DBASE.MDF.dbo.Plans" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Plans">
           <Key>
             <PropertyRef Name="idTeacher" />
@@ -76,7 +69,7 @@
           <Property Name="active" Type="bit" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "C:\USERS\BELIKOVAI\DESKTOP\FFF\_КУРСОВИК\TEACHERSDIARYWPF\DBWORKER\DB\DBASE.MDF.dbo.Tasks" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+предупреждение 6002: В таблице или представлении "C:\USERS\BELIKOVAI\SOURCE\REPOS\TDWPF\DBWORKER\DB\DBASE.MDF.dbo.Tasks" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Tasks">
           <Key>
             <PropertyRef Name="idTeacher" />
@@ -104,23 +97,11 @@
           <Property Name="typeTeacher" Type="bit" Nullable="false" />
         </EntityType>
         <EntityContainer Name="Хранилище dbaseModelContainer">
+          <EntitySet Name="Calendar" EntityType="Self.Calendar" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Journal" EntityType="Self.Journal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JournalDetail" EntityType="Self.JournalDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pupils" EntityType="Self.Pupils" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Calendar" EntityType="Self.Calendar" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[Calendar].[idTeacher] AS [idTeacher], 
-[Calendar].[idPupil] AS [idPupil], 
-[Calendar].[day] AS [day], 
-[Calendar].[timeBegin] AS [timeBegin], 
-[Calendar].[timeEnd] AS [timeEnd], 
-[Calendar].[active] AS [active], 
-[Calendar].[comment] AS [comment], 
-[Calendar].[dateBegin] AS [dateBegin], 
-[Calendar].[dateEnd] AS [dateEnd]
-FROM [dbo].[Calendar] AS [Calendar]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="Plans" EntityType="Self.Plans" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [Plans].[idTeacher] AS [idTeacher], 
@@ -191,14 +172,9 @@ FROM [dbo].[Tasks] AS [Tasks]</DefiningQuery>
         </EntityType>
         <EntityType Name="Calendar">
           <Key>
-            <PropertyRef Name="idTeacher" />
-            <PropertyRef Name="idPupil" />
-            <PropertyRef Name="day" />
-            <PropertyRef Name="timeBegin" />
-            <PropertyRef Name="timeEnd" />
-            <PropertyRef Name="active" />
-            <PropertyRef Name="dateBegin" />
+            <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" />
           <Property Name="idTeacher" Type="Int32" Nullable="false" />
           <Property Name="idPupil" Type="Int32" Nullable="false" />
           <Property Name="day" Type="Int32" Nullable="false" />
@@ -303,6 +279,7 @@ FROM [dbo].[Tasks] AS [Tasks]</DefiningQuery>
           <EntitySetMapping Name="Calendar">
             <EntityTypeMapping TypeName="dbaseModel.Calendar">
               <MappingFragment StoreEntitySet="Calendar">
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="idTeacher" ColumnName="idTeacher" />
                 <ScalarProperty Name="idPupil" ColumnName="idPupil" />
                 <ScalarProperty Name="day" ColumnName="day" />

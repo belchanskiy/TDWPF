@@ -11,10 +11,6 @@
         <ResourceDictionary Source="/styles/DefMainWindow.xaml"></ResourceDictionary>
     </Window.Resources>
 
-    <Window.DataContext>
-        <local:MainWindowViewModel></local:MainWindowViewModel>
-    </Window.DataContext>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -129,12 +125,9 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" >
-                                    <StackPanel.InputBindings>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding }"></MouseBinding>
-                                    </StackPanel.InputBindings>
-                                    <TextBlock Padding="5,0,5,0" Text="{Binding day}" />
-                                    <TextBlock Text=", " />
-                                    <TextBlock Text="{Binding timeBegin}" />
+                                    <TextBlock Padding="5,0,5,0" Text="{Binding dayStr}" />
+                                    <TextBlock Text=", с " />
+                                    <TextBlock Text="{Binding timeBegin.Hours}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -143,7 +136,7 @@
                     <Button Content="Редактировать" Margin="2" Height="20" Width="90" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="1" Command="{Binding BtnPupCalMod}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
                     <Button Content="Удалить" Margin="2" Height="20" Width="90" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Row="1" Command="{Binding BtnPupCalRem}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
                     <Label Content="День недели:" Grid.Column="0" Grid.Row="2"/>
-                    <ComboBox x:Name="CalDay" Grid.Column="1" Grid.Row="2" Height="20" Margin="2" SelectedItem="{Binding JournDayOfWeek}">
+                    <ComboBox x:Name="CalDay" Grid.Column="1" Grid.Row="2" Height="20" Margin="2" SelectedIndex="{Binding JournDayOfWeek}">
                         <ComboBox.Items>
                             <ComboBoxItem Content="Понедельник"/>
                             <ComboBoxItem Content="Вторник"/>
@@ -155,9 +148,9 @@
                         </ComboBox.Items>
                     </ComboBox>
                     <Label Content="Дата начала:" Grid.Column="0" Grid.Row="3"/>
-                    <DatePicker Grid.Column="1" Grid.Row="3" Margin="2"/>
+                    <DatePicker Grid.Column="1" Grid.Row="3" Margin="2" SelectedDate="{Binding JournDateStart}"/>
                     <Label Content="Дата завершения:" Grid.Column="0" Grid.Row="4"/>
-                    <DatePicker Grid.Column="1" Grid.Row="4" Margin="2"/>
+                    <DatePicker Grid.Column="1" Grid.Row="4" Margin="2" SelectedDate="{Binding JournDateEnd}"/>
                     <Label Content="Время начала:" Grid.Column="0" Grid.Row="5"/>
                     <Grid Grid.Column="1" Grid.Row="5">
                         <Grid.ColumnDefinitions>
@@ -167,9 +160,9 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Margin="2" Content="Час." Width="35" HorizontalAlignment="Left"/>
-                        <TextBox Grid.Column="1" Text="0" Margin="2" Width="30" HorizontalAlignment="Left"/>
+                        <TextBox Grid.Column="1" Margin="2" Width="30" HorizontalAlignment="Left" Text="{Binding JournTimeStartH}"/>
                         <Label Grid.Column="2" Margin="2" Content="Мин." Width="35" HorizontalAlignment="Left"/>
-                        <TextBox Grid.Column="3" Text="0" Margin="2" Width="30" HorizontalAlignment="Left"/>
+                        <TextBox Grid.Column="3" Margin="2" Width="30" HorizontalAlignment="Left" Text="{Binding JournTimeStartM}"/>
                     </Grid>
                     <Label Content="Время завершения:" Grid.Column="0" Grid.Row="6"/>
                     <Grid Grid.Column="1" Grid.Row="6">
@@ -180,15 +173,15 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Margin="2" Content="Час." Width="35" HorizontalAlignment="Left"/>
-                        <TextBox Grid.Column="1" Text="0" Margin="2" Width="30" HorizontalAlignment="Left"/>
+                        <TextBox Grid.Column="1" Text="{Binding JournTimeEndH}" Margin="2" Width="30" HorizontalAlignment="Left"/>
                         <Label Grid.Column="2" Margin="2" Content="Мин." Width="35" HorizontalAlignment="Left"/>
-                        <TextBox Grid.Column="3" Text="0" Margin="2" Width="30" HorizontalAlignment="Left"/>
+                        <TextBox Grid.Column="3" Text="{Binding JournTimeEndM}" Margin="2" Width="30" HorizontalAlignment="Left"/>
                     </Grid>
                     <Label Content="Комментарий:" Grid.Column="0" Grid.Row="7"/>
-                    <TextBox Grid.Column="1" Text="" Grid.Row="7" Margin="2" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="1" Text="{Binding JournComment}" Grid.Row="7" Margin="2" HorizontalAlignment="Left"/>
                     <Label Content="Активность:" Grid.Column="0" Grid.Row="8"/>
                     <CheckBox Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Width="17" Margin="2" HorizontalAlignment="Left">
-                        <Binding Path="journActive" UpdateSourceTrigger="PropertyChanged"/>
+                        <Binding Path="JournActive" UpdateSourceTrigger="PropertyChanged"/>
                     </CheckBox>
                     <Button x:Name="ButtonCalPupOK" Content="Записать" Grid.Row="9" Grid.ColumnSpan="2" Margin="1" Command="{Binding BtnPupCalOK}"/>
                 </Grid>

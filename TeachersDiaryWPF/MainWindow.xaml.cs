@@ -29,6 +29,8 @@ namespace TeachersDiaryWPF
             InitializeComponent();
 
             User = _User;
+
+            DataContext = new MainWindowViewModel(User);
         }
 
     }

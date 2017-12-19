@@ -35,17 +35,34 @@ namespace DBWorker
             return retVal;
         }
 
-        public void fromCalendar(Calendar _cal)
+        public void fromCalendar(object _cal)
         {
-            this.idTeacher  = _cal.idTeacher;
-            this.idPupil    = _cal.idPupil;
-            this.day        = _cal.day;
-            this.timeBegin  = _cal.timeBegin;
-            this.timeEnd    = _cal.timeEnd;
-            this.active     = _cal.active;
-            this.comment    = _cal.comment;
-            this.dateBegin  = _cal.dateBegin;
-            this.dateEnd    = _cal.dateEnd;
+            if (_cal == null)
+            {
+                this.idTeacher = 0;
+                this.idPupil = 0;
+                this.day = 0;
+                this.timeBegin = new TimeSpan();
+                this.timeEnd = new TimeSpan();
+                this.active = false;
+                this.comment = "";
+                this.dateBegin = new DateTime();
+                this.dateEnd = new DateTime();
+            }
+            else
+            {
+                Calendar cal = _cal as Calendar;
+
+                this.idTeacher = cal.idTeacher;
+                this.idPupil = cal.idPupil;
+                this.day = cal.day;
+                this.timeBegin = cal.timeBegin;
+                this.timeEnd = cal.timeEnd;
+                this.active = cal.active;
+                this.comment = cal.comment;
+                this.dateBegin = cal.dateBegin;
+                this.dateEnd = cal.dateEnd;
+            }
         }
     }
 
@@ -170,13 +187,13 @@ namespace DBWorker
                 {
                     Calendar cal = mydbe.Calendar.Where(a => (a.idPupil == _idPupil
                                                                 && a.idTeacher == _idTeacher
-                                                                && a.day == _day)).First();
+                                                                && a.day == _day)).FirstOrDefault();
                     retValue.fromCalendar(cal);
                     
                 }
-                catch
+                catch(Exception e)
                 {
-                    throw new AccessViolationException();
+                    throw new AccessViolationException("Не удалось прочитать из БД", e);
                 }
                 return retValue;
             }

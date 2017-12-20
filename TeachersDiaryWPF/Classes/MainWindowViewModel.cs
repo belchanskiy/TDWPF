@@ -512,7 +512,7 @@ namespace TeachersDiaryWPF
         {
             MainWindow _parameter = (MainWindow)parameter;
 
-            if (_parameter.MainCalendar.SelectedDate != null)
+            if (_parameter.MainCalendar.SelectedDate != new DateTime(1,1,1))
             {
                 this.model.UpdateCalEvents((DateTime)_parameter.MainCalendar.SelectedDate);
             }

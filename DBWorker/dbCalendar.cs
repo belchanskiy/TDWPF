@@ -17,20 +17,23 @@ namespace DBWorker
         public string comment;
         public DateTime dateBegin;
         public DateTime? dateEnd;
+        public string PupilName;
+        public string PupilAddress;
+        public string PupilPhone;
 
         public Calendar toCalendar()
         {
             Calendar retVal = new Calendar();
 
-            retVal.idTeacher    = this.idTeacher;
-            retVal.idPupil      = this.idPupil;
-            retVal.day          = this.day;
-            retVal.timeBegin    = this.timeBegin;
-            retVal.timeEnd      = this.timeEnd;
-            retVal.active       = this.active;
-            retVal.comment      = this.comment;
-            retVal.dateBegin    = this.dateBegin;
-            retVal.dateEnd      = this.dateEnd;
+            retVal.idTeacher = this.idTeacher;
+            retVal.idPupil = this.idPupil;
+            retVal.day = this.day;
+            retVal.timeBegin = this.timeBegin;
+            retVal.timeEnd = this.timeEnd;
+            retVal.active = this.active;
+            retVal.comment = this.comment;
+            retVal.dateBegin = this.dateBegin;
+            retVal.dateEnd = this.dateEnd;
 
             return retVal;
         }
@@ -99,7 +102,7 @@ namespace DBWorker
             return Items;
         }
 
-        public List<dbCalendar> GetCalendarEventsByDate(DateTime _date)
+        public List<dbCalendar> GetCalendarEventsByDate(int _idTeacher, DateTime _date)
         {
             List<dbCalendar> ItemsByDate = new List<dbCalendar>();
 
@@ -107,24 +110,35 @@ namespace DBWorker
             {
                 try
                 {
-                    ItemsByDate = mydbe.Calendar.Where(b => b.day == (int)_date.DayOfWeek && b.active).Select(cal => new dbCalendar()
+                    var CalEvents = mydbe.Calendar.Join(mydbe.Pupils, 
+                        pupCal => pupCal.idPupil, pup => pup.Id, 
+                        (pupCal, pup) => new { pupCal, pup })
+                        .Where(a => a.pupCal.idTeacher == _idTeacher 
+                                && a.pupCal.day == ((int)_date.DayOfWeek) 
+                                && a.pupCal.dateBegin <= _date 
+                                && (a.pupCal.dateEnd >= _date 
+                                    || a.pupCal.dateEnd == null 
+                                    || a.pupCal.dateEnd == new DateTime(1,1,1))).ToList();
+
+                    foreach (var CalEvent in CalEvents)
                     {
-                        
-                        idTeacher = cal.idTeacher,
-                        idPupil = cal.idPupil,
-                        day = cal.day,
-                        timeBegin = cal.timeBegin,
-                        timeEnd = cal.timeEnd,
-                        active = cal.active,
-                        comment = cal.comment,
-                        dateBegin = cal.dateBegin,
-                        dateEnd = cal.dateEnd,
+                        dbCalendar CalItem = new dbCalendar();
+
+                        CalItem.active = CalEvent.pupCal.active;
+                        CalItem.comment = CalEvent.pupCal.comment;
+                        CalItem.day = CalEvent.pupCal.day;
+                        CalItem.timeBegin = CalEvent.pupCal.timeBegin;
+                        CalItem.timeEnd = CalEvent.pupCal.timeEnd;
+                        CalItem.PupilName = CalEvent.pup.name;
+                        CalItem.PupilAddress = CalEvent.pup.address;
+                        CalItem.PupilPhone = CalEvent.pup.parentPhone;
+
+                        ItemsByDate.Add(CalItem);
                     }
-                    ).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    throw new AccessViolationException();
+                    throw new AccessViolationException("Ошибка чтения", e);
                 }
             }
 
@@ -145,6 +159,26 @@ namespace DBWorker
                 catch (Exception e)
                 {
                     throw new AccessViolationException("Не удалось записать в БД", e);
+                }
+            }
+        }
+
+        public void deleteCalendarInDBbyIDS(int _idTeacher, int _idPupil, int _day)
+        {
+            using (mydbaseEntities mydbe = new mydbaseEntities())
+            {
+                try
+                {
+                    Calendar cal = mydbe.Calendar.Where(a => (a.idPupil == _idPupil
+                                                                && a.idTeacher == _idTeacher
+                                                                && a.day == _day)).FirstOrDefault();
+
+                    mydbe.Calendar.Remove(cal);
+                    mydbe.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw new AccessViolationException("Ошибка удаления элемента из БД", e);
                 }
             }
         }

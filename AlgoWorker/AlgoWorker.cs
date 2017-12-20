@@ -106,17 +106,19 @@ namespace AlgoWorker
     public class CalendarWorker
     {
         DBWorker.dbCalendars DBWCal;
-        List<Calendar> Items;
+        ObservableCollection<Calendar> Items;
 
         public CalendarWorker()
         {
             DBWCal = new DBWorker.dbCalendars();
-            Items = new List<Calendar>();
+            Items = new ObservableCollection<Calendar>();
         }
 
-        public List<Calendar> getItemsByDate(DateTime _date)
+        public ObservableCollection<Calendar> getItemsByDate(int _idTeacher, DateTime _date)
         {
-            List<DBWorker.dbCalendar> dbItems = DBWCal.GetCalendarEventsByDate(new DateTime(_date.Year, _date.Month, _date.Day));
+            List<DBWorker.dbCalendar> dbItems = DBWCal.GetCalendarEventsByDate(_idTeacher, new DateTime(_date.Year, _date.Month, _date.Day));
+
+            this.Items.Clear();
 
             foreach(DBWorker.dbCalendar dbItem in dbItems)
             {
@@ -131,6 +133,9 @@ namespace AlgoWorker
                 Item.comment = dbItem.comment;
                 Item.dateBegin = dbItem.dateBegin;
                 Item.dateEnd = dbItem.dateEnd;
+                Item.PupilAddress = dbItem.PupilAddress;
+                Item.PupilPhone = dbItem.PupilPhone;
+                Item.PupilName = dbItem.PupilName;
 
                 this.Items.Add(Item);
             }
@@ -205,6 +210,11 @@ namespace AlgoWorker
             {
                 DBWCal.updateCalendarInDB(Item);
             }
+        }
+
+        public void RemoveItemFromDB(int _idTeacher, int _idPupil, int _day)
+        {
+            DBWCal.deleteCalendarInDBbyIDS(_idTeacher, _idPupil, ++_day);
         }
     }
 }

@@ -32,9 +32,9 @@ namespace TeachersDiaryWPF
             }
         }
 
-        private List<AlgoWorker.Calendar> calEvents;
+        private ObservableCollection<AlgoWorker.Calendar> calEvents;
 
-        public List<AlgoWorker.Calendar> CalendarEvents
+        public ObservableCollection<AlgoWorker.Calendar> CalendarEvents
         {
             get { return this.calEvents; }
             set
@@ -330,6 +330,11 @@ namespace TeachersDiaryWPF
             this.PupilTarget = _pupil.target;
         }
 
+        public void UpdateCalEvents(DateTime _Date)
+        {
+            this.CalendarEvents = AWcWorker.getItemsByDate(this.User.id, _Date);
+        }
+
         public MainWindowViewModel(dataTypes.User _User)
         {
             this.User = _User;
@@ -351,11 +356,11 @@ namespace TeachersDiaryWPF
 
             JournDayOfWeek = -1;
 
-            this.CalendarEvents = AWcWorker.getItemsByDate(DateTime.Now);
+            
 
             this.UpdatePupilsList();
             this.UpdateJournalList();
-
+            this.UpdateCalEvents(DateTime.Now);
         }
     }
 
@@ -449,6 +454,7 @@ namespace TeachersDiaryWPF
             MainWindow _parameter = (MainWindow)parameter;
 
             if (_parameter.ListPupils.SelectedValue != null) model.fillPupilsField((AlgoWorker.Pupil)_parameter.ListPupils.SelectedValue);
+            this.model.UpdateJournalList();
         }
     }
 
@@ -506,7 +512,14 @@ namespace TeachersDiaryWPF
         {
             MainWindow _parameter = (MainWindow)parameter;
 
-            this.model.CalendarEvents = this.model.AWcWorker.getItemsByDate((DateTime)_parameter.MainCalendar.SelectedDate);
+            if (_parameter.MainCalendar.SelectedDate != null)
+            {
+                this.model.UpdateCalEvents((DateTime)_parameter.MainCalendar.SelectedDate);
+            }
+            else
+            {
+                this.model.UpdateCalEvents(DateTime.Today);
+            }
         }
     }
 
@@ -546,6 +559,7 @@ namespace TeachersDiaryWPF
 
             this.model.AWcWorker.AddItemToDB(Item);
             this.model.UpdateJournalList();
+            this.model.ClearJournFields();
         }
     }
 
@@ -597,8 +611,9 @@ namespace TeachersDiaryWPF
 
         public void Execute(object parameter)
         {
-            //this.model.AWcWorker.
-            int f = 1;
+            MainWindow _parameter = (MainWindow)parameter;
+            this.model.AWcWorker.RemoveItemFromDB(this.model.User.id, this.model.PupilId, ((AlgoWorker.Calendar)_parameter.ListCalPup.SelectedItem).day);
+            this.model.UpdateJournalList();
         }
     }
 
@@ -624,7 +639,8 @@ namespace TeachersDiaryWPF
 
         public void Execute(object parameter)
         {
-            AlgoWorker.Calendar Item = model.AWcWorker.getItemByIDS(this.model.User.id, this.model.PupilId, this.model.JournDayOfWeek);
+            MainWindow _parameter = (MainWindow)parameter;
+            AlgoWorker.Calendar Item = model.AWcWorker.getItemByIDS(this.model.User.id, this.model.PupilId, ((AlgoWorker.Calendar)_parameter.ListCalPup.SelectedItem).day);
 
             this.model.JournDayOfWeek = Item.day;
             this.model.JournDateStart = Item.dateBegin;

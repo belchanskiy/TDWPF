@@ -14,18 +14,60 @@ namespace AlgoWorker
         public int day {
             get { return this.pday; }
             set { this.pday = value;
-                this.dayStr = this.intToString(value);
+                this.dayStr = this.dayToString(this.pday);
             }
         }
-        public string dayStr;
-        public TimeSpan timeBegin;
-        public TimeSpan timeEnd;
+        private string dStr;
+        public string dayStr
+        {
+            get { return this.dStr; }
+            set { this.dStr = value; }
+        }
+        private TimeSpan tBegin;
+        public TimeSpan timeBegin
+        {
+            get { return this.tBegin; }
+            set
+            {
+                this.tBegin = value;
+                this.timeBeginStr = this.addNulls(this.tBegin.Hours.ToString(), 2) + ':' + this.addNulls(this.tBegin.Minutes.ToString(), 2);
+            }
+        }
+        private TimeSpan tEnd;
+        public TimeSpan timeEnd
+        {
+            get { return this.tEnd; }
+            set
+            {
+                this.tEnd = value;
+                this.timeEndStr = this.addNulls(this.tEnd.Hours.ToString(), 2) + ':' + this.addNulls(this.tEnd.Minutes.ToString(), 2);
+            }
+        }
         public bool active;
         public string comment;
         public DateTime dateBegin;
+        private string tBeginStr;
+        public string timeBeginStr
+        {
+            get { return this.tBeginStr; }
+            set { this.tBeginStr = value; }
+        }
+        private string tEndStr;
+        public string timeEndStr
+        {
+            get { return this.tEndStr; }
+            set { this.tEndStr = value; }
+        }
         public DateTime? dateEnd;
-
-        private string intToString(int _day)
+        public string addNulls(string _str, int _length)
+        {
+            while(_str.Length < _length)
+            {
+                _str = '0' + _str;
+            }
+            return _str;
+        }
+        private string dayToString(int _day)
         {
             if (_day == 0) return "Понедельник";
             if (_day == 1) return "Вторник";
@@ -36,5 +78,8 @@ namespace AlgoWorker
             if (_day == 6) return "Воскресенье";
             return "";
         }
+        public string PupilName { get; set; }
+        public string PupilAddress { get; set; }
+        public string PupilPhone { get; set; }
     }
 }

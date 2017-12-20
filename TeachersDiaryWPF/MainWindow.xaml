@@ -20,9 +20,31 @@
             <ColumnDefinition Width="180"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Calendar x:Name="MainCalendar" HorizontalAlignment="Left" VerticalAlignment="Top" Height="170" Width="175" FontSize="14" Grid.RowSpan="2" IsTodayHighlighted="True" DisplayMode="Month" SelectionMode="SingleDate" SelectedDate="{Binding CalSelDate}" Margin="2"/>
-        <Button x:Name="Button_ShowCalendar" Content="Показать расписание" Grid.Column="0" Grid.RowSpan="2" Height="20" VerticalAlignment="Top" Width="172" Margin="2, 170" Command="{Binding CalSelDateChanged}"/>
-        <ListView x:Name="PlansList" HorizontalAlignment="Left" Height="340" Margin="2,194,0,0" VerticalAlignment="Top" Width="175" Grid.Column="0" Grid.RowSpan="2" Background="Gainsboro" ItemsSource="{Binding CalendarEvents}"/>
+        <Grid Grid.Column="0" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="170"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="400"/>
+            </Grid.RowDefinitions>
+            <Calendar x:Name="MainCalendar" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="170" Width="175" FontSize="14" Grid.RowSpan="2" IsTodayHighlighted="True" DisplayMode="Month" SelectionMode="SingleDate" SelectedDate="{Binding CalSelDate}" Margin="2"/>
+            <Button x:Name="Button_ShowCalendar" Grid.Row="1" Content="Показать расписание" Grid.Column="0" Grid.RowSpan="2" Height="20" VerticalAlignment="Top" Width="172" Margin="2" Command="{Binding CalSelDateChanged}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+            <ListView x:Name="PlansList" Grid.Row="2" HorizontalAlignment="Left" Height="340" Margin="2" VerticalAlignment="Top" Width="175" Grid.Column="0" ItemsSource="{Binding CalendarEvents}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" >
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding timeBeginStr}"/>
+                                <TextBlock Text=" - " />
+                                <TextBlock Text="{Binding timeEndStr}"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding PupilName}"/>
+                            <TextBlock Text="{Binding PupilAddress}"/>
+                            <Line Width="100" Height="1"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
         <Label Content="Список учеников:" HorizontalAlignment="Left" Grid.RowSpan="2" Height="20" Grid.Column="1" VerticalAlignment="Top" Margin="2"/>
         <ListView x:Name="ListPupils" Grid.RowSpan="2" Height="178" Grid.Column="1" ItemsSource="{Binding PupilsList}" VerticalAlignment="Top" Margin="2, 20">
             <ListView.ItemTemplate>
@@ -127,7 +149,9 @@
                                 <StackPanel Orientation="Horizontal" >
                                     <TextBlock Padding="5,0,5,0" Text="{Binding dayStr}" />
                                     <TextBlock Text=", с " />
-                                    <TextBlock Text="{Binding timeBegin.Hours}" />
+                                    <TextBlock Text="{Binding timeBeginStr}" />
+                                    <TextBlock Text=" по " />
+                                    <TextBlock Text="{Binding timeEndStr}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>

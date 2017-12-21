@@ -49,6 +49,7 @@ namespace DBWorker
                 }
                 catch
                 {
+                    //REVIEW: Ну и в чём смысл поймать и опять кинуть исключение?
                     throw new AccessViolationException("Ошибка чтения значений из базы данных");
                 }
             }
@@ -78,6 +79,7 @@ namespace DBWorker
                 }
                 catch
                 {
+                    //REVIEW: И чего? Глотаем исключение?
                     //throw new AccessViolationException();
                 }
             }
@@ -98,6 +100,7 @@ namespace DBWorker
                 }
                 catch
                 {
+                    //REVIEW:Поймали и кинули? А залоггировать?
                     throw new AccessViolationException("Не удалось удалить элемент из БД");
                 }
             }
@@ -124,6 +127,7 @@ namespace DBWorker
                 }
                 catch
                 {
+                    //REVIEW: Поймали и кинули?
                     throw new AccessViolationException();
                 }
             }
@@ -151,6 +155,7 @@ namespace DBWorker
                 }
                 catch (Exception e)
                 {
+                    //REVIEW: Поймали и кинули?
                     throw new AccessViolationException("Не удалось записать в БД", e);
                 }
             }

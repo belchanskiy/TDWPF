@@ -29,7 +29,7 @@ namespace DBWorker
                 }
                 catch
                 {
-                    
+                    //REVIEW: Ну, поймали мы исключение и шо?
                 }
             }
 

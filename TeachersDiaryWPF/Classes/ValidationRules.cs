@@ -14,6 +14,7 @@ namespace TeachersDiaryWPF
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             string AuthLoginVal = value as string;
+            //REVIEW: А почему не встроенными методами String
             if (AuthLoginVal == null || AuthLoginVal == "")
                 return new ValidationResult(false, "Введите логин");
 
@@ -29,6 +30,7 @@ namespace TeachersDiaryWPF
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             string AuthPasswordVal = value as string;
+            //REVIEW: Встроенные методы проверки
             if (AuthPasswordVal == null || AuthPasswordVal == "")
                 return new ValidationResult(false, "Введите пароль");
 

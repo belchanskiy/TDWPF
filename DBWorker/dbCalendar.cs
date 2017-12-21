@@ -95,6 +95,7 @@ namespace DBWorker
                 }
                 catch
                 {
+                    //REVIEW: Поймали и кинули?
                     throw new AccessViolationException();
                 }
             }
@@ -138,6 +139,7 @@ namespace DBWorker
                 }
                 catch (Exception e)
                 {
+                    //REVIEW: Поймали и кинули?
                     throw new AccessViolationException("Ошибка чтения", e);
                 }
             }
@@ -158,6 +160,7 @@ namespace DBWorker
                 }
                 catch (Exception e)
                 {
+                    //REVIEW: Поймали и кинули?
                     throw new AccessViolationException("Не удалось записать в БД", e);
                 }
             }
@@ -178,6 +181,7 @@ namespace DBWorker
                 }
                 catch (Exception e)
                 {
+                    //REVIEW: Поймали и кинули?
                     throw new AccessViolationException("Ошибка удаления элемента из БД", e);
                 }
             }
@@ -207,6 +211,7 @@ namespace DBWorker
                 }
                 catch
                 {
+                    //REVIEW: Поймали и кинули?
                     throw new AccessViolationException();
                 }
             }
@@ -227,6 +232,7 @@ namespace DBWorker
                 }
                 catch(Exception e)
                 {
+                    //REVIEW: Поймали и кинули?
                     throw new AccessViolationException("Не удалось прочитать из БД", e);
                 }
                 return retValue;
@@ -255,6 +261,7 @@ namespace DBWorker
                 }
                 catch
                 {
+                    //REVIEW: Я в печали...
                     throw new AccessViolationException();
                 }
                 return retValue;

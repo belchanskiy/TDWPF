@@ -24,6 +24,7 @@ namespace TeachersDiaryWPF
         private string login;
         private string password;
 
+        
         private void OnPropertyChanged(string prop = "")
         {
             if (this.PropertyChanged != null)
@@ -113,7 +114,7 @@ namespace TeachersDiaryWPF
             dataTypes.User User = new dataTypes.User(model.text_Login, model.password_Password);
 
             new AlgoWorker.Authorizer().AuthorizeMe(User);
-
+            //REVIEW: Встроенные методы
             if (User.name != "")
             {
                 AuthWindow ParentWindow = (AuthWindow)sender;

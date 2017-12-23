@@ -68,17 +68,20 @@ namespace DBWorker
             {
                 //try
                 //{
-                    Pupils pup = mydbe.Pupils.Where(b => b.Id == _id).First();
+                    Pupils pup = mydbe.Pupils.Where(b => b.Id == _id).FirstOrDefault();
 
-                    result.id = pup.Id;
-                    result.name = pup.name;
-                    result.grade = pup.grade;
-                    result.target = pup.target;
-                    result.address = pup.address;
-                    result.parentName = pup.parentName;
-                    result.parentPhone = pup.parentPhone;
-                    result.comment = pup.comment;
-                    result.active = pup.active;
+                    if (pup != null)
+                    {
+                        result.id = pup.Id;
+                        result.name = pup.name;
+                        result.grade = pup.grade;
+                        result.target = pup.target;
+                        result.address = pup.address;
+                        result.parentName = pup.parentName;
+                        result.parentPhone = pup.parentPhone;
+                        result.comment = pup.comment;
+                        result.active = pup.active;
+                    }
                 //}
                 //catch
                 //{

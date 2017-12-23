@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace TeachersDiaryWPF
 {
@@ -18,10 +19,16 @@ namespace TeachersDiaryWPF
             this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
         }
 
-        void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            string errorMessage = string.Format("Необработанное исключение: {0}", e.Exception.Message);
+            string errorMessage = string.Format("Ошибка: {0}", e.Exception.Message);
             MessageBox.Show(errorMessage, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            if (!new AlgoWorker.Logger(errorMessage).writeToLog())
+            {
+                MessageBox.Show("Ошибка записи в лог-файл!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             e.Handled = true;
         }
     }

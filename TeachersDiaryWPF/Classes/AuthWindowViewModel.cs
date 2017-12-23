@@ -105,7 +105,7 @@ namespace TeachersDiaryWPF
 
         public void Execute(object sender)
         {
-            if (model.text_Login == "")
+            if (model.text_Login.Length == 0)
             {
                 MessageBox.Show("Не введено имя пользователя");
                 return;
@@ -115,7 +115,7 @@ namespace TeachersDiaryWPF
 
             new AlgoWorker.Authorizer().AuthorizeMe(User);
             //REVIEW: Встроенные методы
-            if (User.name != "")
+            if (User.name.Length > 0)
             {
                 AuthWindow ParentWindow = (AuthWindow)sender;
                 new MainWindow(User).Show();

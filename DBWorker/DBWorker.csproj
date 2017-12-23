@@ -76,6 +76,7 @@
     <Compile Include="JournalDetail.cs">
       <DependentUpon>myDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="LogWriter.cs" />
     <Compile Include="myDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

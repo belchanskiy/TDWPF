@@ -15,7 +15,7 @@ namespace TeachersDiaryWPF
         {
             string AuthLoginVal = value as string;
             //REVIEW: А почему не встроенными методами String
-            if (AuthLoginVal == null || AuthLoginVal == "")
+            if (AuthLoginVal.Length == 0)
                 return new ValidationResult(false, "Введите логин");
 
             if (AuthLoginVal.Length < 4)
@@ -31,7 +31,7 @@ namespace TeachersDiaryWPF
         {
             string AuthPasswordVal = value as string;
             //REVIEW: Встроенные методы проверки
-            if (AuthPasswordVal == null || AuthPasswordVal == "")
+            if (AuthPasswordVal.Length == 0)
                 return new ValidationResult(false, "Введите пароль");
 
             if (AuthPasswordVal.Length < 6)

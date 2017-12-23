@@ -69,6 +69,9 @@ namespace DBWorker
         }
     }
 
+    // Конструкции Try-catch не используются, т.к. в App.xaml.cs присутствует глобальный обработчик 
+    // необработанных исключений. Там пользователю выдается текст ошибки и пероизводится запись в лог
+
     public class dbCalendars
     {
         public List<dbCalendar> Items;
@@ -77,8 +80,8 @@ namespace DBWorker
         {
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
-                try
-                {
+                //try
+                //{
                     Items = mydbe.Calendar.Select(cal => new dbCalendar()
                     {
                         idTeacher   = cal.idTeacher,
@@ -92,12 +95,12 @@ namespace DBWorker
                         dateEnd     = cal.dateEnd,
                     }).ToList();
 
-                }
-                catch
-                {
-                    //REVIEW: Поймали и кинули?
-                    throw new AccessViolationException();
-                }
+                //}
+                //catch
+                //{
+                //    //REVIEW: Поймали и кинули?
+                //    throw new AccessViolationException();
+                //}
             }
 
             return Items;
@@ -109,8 +112,8 @@ namespace DBWorker
 
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
-                try
-                {
+                //try
+                //{
                     var CalEvents = mydbe.Calendar.Join(mydbe.Pupils, 
                         pupCal => pupCal.idPupil, pup => pup.Id, 
                         (pupCal, pup) => new { pupCal, pup })
@@ -136,12 +139,12 @@ namespace DBWorker
 
                         ItemsByDate.Add(CalItem);
                     }
-                }
-                catch (Exception e)
-                {
-                    //REVIEW: Поймали и кинули?
-                    throw new AccessViolationException("Ошибка чтения", e);
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    //REVIEW: Поймали и кинули?
+                //    throw new AccessViolationException("Ошибка чтения", e);
+                //}
             }
 
             return ItemsByDate;
@@ -151,18 +154,18 @@ namespace DBWorker
         {
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
-                try
-                {
+                //try
+                //{
                     Calendar cal = _cal.toCalendar();
 
                     mydbe.Calendar.Add(cal);
                     mydbe.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    //REVIEW: Поймали и кинули?
-                    throw new AccessViolationException("Не удалось записать в БД", e);
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    //REVIEW: Поймали и кинули?
+                //    throw new AccessViolationException("Не удалось записать в БД", e);
+                //}
             }
         }
 
@@ -170,20 +173,20 @@ namespace DBWorker
         {
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
-                try
-                {
+                //try
+                //{
                     Calendar cal = mydbe.Calendar.Where(a => (a.idPupil == _idPupil
                                                                 && a.idTeacher == _idTeacher
                                                                 && a.day == _day)).FirstOrDefault();
 
                     mydbe.Calendar.Remove(cal);
                     mydbe.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    //REVIEW: Поймали и кинули?
-                    throw new AccessViolationException("Ошибка удаления элемента из БД", e);
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    //REVIEW: Поймали и кинули?
+                //    throw new AccessViolationException("Ошибка удаления элемента из БД", e);
+                //}
             }
         }
 
@@ -191,8 +194,8 @@ namespace DBWorker
         {
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
-                try
-                {
+                //try
+                //{
                     Calendar cal = mydbe.Calendar.Where(a => (a.idPupil == _cal.idPupil 
                                                                 && a.idTeacher == _cal.idTeacher
                                                                 && a.day == _cal.day)).First();
@@ -208,12 +211,12 @@ namespace DBWorker
                     cal.dateEnd = _cal.dateEnd;
 
                     mydbe.SaveChanges();
-                }
-                catch
-                {
-                    //REVIEW: Поймали и кинули?
-                    throw new AccessViolationException();
-                }
+                //}
+                //catch
+                //{
+                //    //REVIEW: Поймали и кинули?
+                //    throw new AccessViolationException();
+                //}
             }
         }
 
@@ -222,19 +225,19 @@ namespace DBWorker
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
                 dbCalendar retValue = new dbCalendar();
-                try
-                {
+                //try
+                //{
                     Calendar cal = mydbe.Calendar.Where(a => (a.idPupil == _idPupil
                                                                 && a.idTeacher == _idTeacher
                                                                 && a.day == _day)).FirstOrDefault();
                     retValue.fromCalendar(cal);
                     
-                }
-                catch(Exception e)
-                {
-                    //REVIEW: Поймали и кинули?
-                    throw new AccessViolationException("Не удалось прочитать из БД", e);
-                }
+                //}
+                //catch(Exception e)
+                //{
+                //    //REVIEW: Поймали и кинули?
+                //    throw new AccessViolationException("Не удалось прочитать из БД", e);
+                //}
                 return retValue;
             }
         }

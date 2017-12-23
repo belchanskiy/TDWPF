@@ -24,6 +24,9 @@ namespace DBWorker
         }
     }
 
+    // Конструкции Try-catch не используются, т.к. в App.xaml.cs присутствует глобальный обработчик 
+    // необработанных исключений. Там пользователю выдается текст ошибки и пероизводится запись в лог
+
     public class dbPupils
     {
         List<dbPupil> Items;
@@ -32,8 +35,8 @@ namespace DBWorker
         {
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
-                try
-                {
+                //try
+                //{
                     Items = mydbe.Pupils.Select(pup => new dbPupil()
                     {
                         id = pup.Id,
@@ -46,12 +49,12 @@ namespace DBWorker
                         comment = pup.comment,
                         active = pup.active,
                     }).ToList();
-                }
-                catch
-                {
-                    //REVIEW: Ну и в чём смысл поймать и опять кинуть исключение?
-                    throw new AccessViolationException("Ошибка чтения значений из базы данных");
-                }
+                //}
+                //catch
+                //{
+                //    //REVIEW: Ну и в чём смысл поймать и опять кинуть исключение?
+                //    throw new AccessViolationException("Ошибка чтения значений из базы данных");
+                //}
             }
 
             return Items;
@@ -63,8 +66,8 @@ namespace DBWorker
 
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
-                try
-                {
+                //try
+                //{
                     Pupils pup = mydbe.Pupils.Where(b => b.Id == _id).First();
 
                     result.id = pup.Id;
@@ -76,12 +79,12 @@ namespace DBWorker
                     result.parentPhone = pup.parentPhone;
                     result.comment = pup.comment;
                     result.active = pup.active;
-                }
-                catch
-                {
-                    //REVIEW: И чего? Глотаем исключение?
-                    //throw new AccessViolationException();
-                }
+                //}
+                //catch
+                //{
+                //    //REVIEW: И чего? Глотаем исключение?
+                //    //throw new AccessViolationException();
+                //}
             }
 
             return result;
@@ -91,18 +94,18 @@ namespace DBWorker
         {
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
-                try
-                {
+                //try
+                //{
                     Pupils pup = mydbe.Pupils.Where(b => b.Id == _id).First();
 
                     mydbe.Pupils.Remove(pup);
                     mydbe.SaveChanges();
-                }
-                catch
-                {
-                    //REVIEW:Поймали и кинули? А залоггировать?
-                    throw new AccessViolationException("Не удалось удалить элемент из БД");
-                }
+                //}
+                //catch
+                //{
+                //    //REVIEW:Поймали и кинули? А залоггировать?
+                //    throw new AccessViolationException("Не удалось удалить элемент из БД");
+                //}
             }
         }
 
@@ -110,8 +113,8 @@ namespace DBWorker
         {
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
-                try
-                {
+                //try
+                //{
                     Pupils pup = mydbe.Pupils.Where(a => a.Id == _pupil.id).First();
 
                     pup.name        = _pupil.name;
@@ -124,12 +127,12 @@ namespace DBWorker
                     pup.active      = _pupil.active;
 
                     mydbe.SaveChanges();
-                }
-                catch
-                {
-                    //REVIEW: Поймали и кинули?
-                    throw new AccessViolationException();
-                }
+                //}
+                //catch
+                //{
+                //    //REVIEW: Поймали и кинули?
+                //    throw new AccessViolationException();
+                //}
             }
         }
 
@@ -137,8 +140,8 @@ namespace DBWorker
         {
             using (mydbaseEntities mydbe = new mydbaseEntities())
             {
-                try
-                {
+                //try
+                //{
                     Pupils pup = new Pupils();
                     
                     pup.name = _pupil.name;
@@ -152,12 +155,12 @@ namespace DBWorker
 
                     mydbe.Pupils.Add(pup);
                     mydbe.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    //REVIEW: Поймали и кинули?
-                    throw new AccessViolationException("Не удалось записать в БД", e);
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    //REVIEW: Поймали и кинули?
+                //    throw new AccessViolationException("Не удалось записать в БД", e);
+                //}
             }
         }
     }
